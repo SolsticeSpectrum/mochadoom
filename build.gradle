@@ -1,0 +1,52 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group = 'mochadoom'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Add any dependencies here if needed
+}
+
+// Create a "run" task to easily start the game
+task run(type: JavaExec) {
+    group = 'application'
+    description = 'Run MochaDoom'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'mochadoom.Engine'
+    
+    // Default arguments - can be overridden with -Pargs="..."
+    args = []
+    if (project.hasProperty('args')) {
+        args = project.getProperty('args').split('\\s+')
+    }
+}
+
+// Create a JAR with all dependencies
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'mochadoom.Engine'
+        )
+    }
+}
+
+// Configure publishing for JitPack
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
