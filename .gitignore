@@ -1,6 +1,7 @@
 .settings
 .classpath
 .project
+.gradle/
 nbproject/private/
 build/
 dist/
