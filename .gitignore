@@ -9,6 +9,8 @@ dist/
 *.dsg
 build.xml
 nbproject/
+mochadoom.cfg
+.doomrc
 
 # Intellij 
 *.iml

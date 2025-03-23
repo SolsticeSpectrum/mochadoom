@@ -6,7 +6,6 @@ plugins {
 group = 'mochadoom'
 version = '1.0.0'
 
-// Use older Gradle compatible syntax instead of java {} block
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
@@ -18,7 +17,6 @@ dependencies {
     // Add any dependencies here if needed
 }
 
-// Configure source sets to use the non-standard directory structure
 sourceSets {
     main {
         java {
@@ -31,21 +29,23 @@ sourceSets {
     }
 }
 
-// Create a "run" task to easily start the game
 task run(type: JavaExec) {
     group = 'application'
     description = 'Run MochaDoom'
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'mochadoom.Engine'
     
-    // Default arguments - can be overridden with -Pargs="..."
-    args = []
+    args = ["-iwad", "pwads/DOOM.WAD"]
+    
     if (project.hasProperty('args')) {
-        args = project.getProperty('args').split('\\s+')
+        def argsString = project.getProperty('args')
+        println "Raw args string: ${argsString}"
+        
+        args = argsString.split(' ')
+        println "Arguments passed to Java application: ${args}"
     }
 }
 
-// Create a JAR with all dependencies
 jar {
     manifest {
         attributes(
@@ -54,7 +54,6 @@ jar {
     }
 }
 
-// Configure publishing for JitPack
 publishing {
     publications {
         mavenJava(MavenPublication) {
